@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netsis Yazılım Teknoloji - Kurumsal</title>
+    <!-- Art Deco Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Marcellus&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           DESIGN TOKENS & BASE STYLES
+           ========================================================================== */
+        :root {
+            --obsidian: #1E1A13;
+            --champagne: #F6F2EA;
+            --charcoal: #FFFFFF;
+            --gold: #B57A2F;
+            --gold-light: #F7E3B1;
+            --gold-glow: rgba(181, 122, 47, 0.18);
+            --gold-dim: rgba(181, 122, 47, 0.22);
+            --midnight: #7A8AA0;
+            --pewter: #6B6B6B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--champagne);
+            color: var(--obsidian);
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Yüksek Performanslı Sabit Arka Plan Dokusu (Scroll Donmasını Engeller) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(181, 122, 47, 0.05) 0, rgba(181, 122, 47, 0.05) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(-45deg, rgba(181, 122, 47, 0.05) 0, rgba(181, 122, 47, 0.05) 1px, transparent 1px, transparent 40px);
+            z-index: -1;
+            pointer-events: none;
+            transform: translateZ(0);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Marcellus', serif;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            min-height: 600px;
+        }
+
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .text-center { text-align: center; }
+        .text-gold { color: var(--gold); }
+        .text-muted { color: var(--pewter); }
+        
+        p { margin-bottom: 1.5rem; }
+
+        /* ==========================================================================
+           COMPONENTS & DECORATIONS
+           ========================================================================== */
+        
+        /* Sunburst Background */
+        .sunburst-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Decorative Dividers */
+        .deco-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+        .deco-line {
+            height: 1px;
+            width: 100%;
+            background: var(--gold);
+            opacity: 0.5;
+        }
+        .deco-diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        /* Image Placeholder - Double Frame */
+        .image-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background-color: #FFFFFF;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--gold-dim);
+            padding: 8px;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            transform: translateZ(0); /* Ekran kartı (GPU) hızlandırması */
+            will-change: transform;
+        }
+        .image-placeholder:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(181, 122, 47, 0.15);
+        }
+        .image-placeholder-inner {
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--champagne);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: repeating-linear-gradient(45deg, #F7F1E5, #F7F1E5 10px, #EDE5D5 10px, #EDE5D5 20px);
+        }
+        .placeholder-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .placeholder-text {
+            font-family: 'Marcellus', serif;
+            color: var(--midnight);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Image Placeholder (16:9) */
+        .hero-placeholder {
+            aspect-ratio: 21/9;
+        }
+
+        /* Buttons */
+        .btn-deco {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-family: 'Marcellus', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            background: transparent;
+            border: 2px solid var(--gold);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-deco:hover {
+            background: var(--gold);
+            color: var(--obsidian);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        /* Stepped Cards */
+        .deco-card {
+            background: #FFFFFF;
+            padding: 3rem 2rem;
+            position: relative;
+            border: 1px solid rgba(181, 122, 47, 0.18);
+            transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+            height: 100%;
+            z-index: 1;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        .deco-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 40px rgba(181, 122, 47, 0.12), 0 0 20px var(--gold-glow);
+        }
+        
+        /* Stepped Corner Decorations (Top Left, Bottom Right) */
+        .corner-tl, .corner-br {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-color: var(--gold);
+            border-style: solid;
+            transition: opacity 0.4s ease;
+            opacity: 0.5;
+        }
+        .corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+        .deco-card:hover .corner-tl, .deco-card:hover .corner-br { opacity: 1; }
+
+        /* ==========================================================================
+           LAYOUT SECTIONS
+           ========================================================================== */
+        
+        /* Header */
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid rgba(181, 122, 47, 0.18);
+            box-shadow: inset 0 -96px 82px -20px rgb(181 122 47 / 53%);
+        }
+        .logo {
+            font-family: 'Marcellus', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--gold);
+            text-shadow: 0 0 8px rgba(181, 122, 47, 0.18);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-bottom: 2px double var(--gold-dim);
+        }
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            background: rgba(255,255,255,0.92);
+            padding: 3rem;
+            border: 1px solid rgba(181, 122, 47, 0.18);
+            backdrop-filter: blur(5px);
+            color: var(--obsidian);
+        }
+        .slide-number {
+            font-family: 'Marcellus', serif;
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(181,122,47,0.12);
+        }
+        
+        /* Hero Background Placeholder */
+        .hero-bg-placeholder {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+        }
+        .hero-bg-placeholder .image-placeholder {
+            height: 100%;
+            border: none;
+        }
+        .hero-bg-placeholder .image-placeholder-inner {
+            border: none;
+        }
+
+        /* Flex & Grid Systems */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4rem;
+            align-items: center;
+        }
+        .col-half {
+            flex: 1;
+            min-width: 300px;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        /* About Section (Kurumsal Tanıtım) */
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .about-text p {
+            color: var(--pewter);
+            text-align: justify;
+        }
+
+        /* Sectors Section */
+        .sectors-bg {
+            background: linear-gradient(to bottom, transparent, rgba(181, 122, 47, 0.08), transparent);
+            border-top: 1px solid rgba(181, 122, 47, 0.18);
+            border-bottom: 1px solid rgba(181, 122, 47, 0.18);
+        }
+        .sector-card {
+            text-align: center;
+        }
+        .sector-diamond {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            border: 1px solid var(--gold);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.5s ease;
+            background: var(--charcoal);
+        }
+        .sector-card:hover .sector-diamond {
+            background: var(--gold);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+        .sector-icon-wrapper {
+            transform: rotate(-45deg); /* Counter-rotate content */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            transition: color 0.5s;
+        }
+        .sector-card:hover .sector-icon-wrapper {
+            color: var(--obsidian);
+        }
+        
+        .sector-title {
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 2px double var(--gold);
+            padding: 4rem 0 2rem;
+            background: #FBF7EE;
+        }
+        .footer-content {
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .footer-logo {
+            font-family: 'Marcellus', serif;
+            color: var(--gold);
+            font-size: 5rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 2rem;
+        }
+        .footer-info {
+            color: var(--obsidian);
+            font-size: 1.95rem;
+            line-height: 2;
+            margin-bottom: 2rem;
+        }
+        .footer-phone {
+            margin-top: 1.5rem;
+            color: var(--gold);
+            font-size: 2.2rem;
+            font-family: 'Marcellus', serif;
+            letter-spacing: 0.1em;
+        }
+        .deco-diamond {
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            transform: rotate(49deg);
+            flex-shrink: 0;
+        }
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gold-dim);
+            color: var(--pewter);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        /* Map Container */
+        .map-container {
+            width: 100%;
+            height: 350px;
+            margin: 3rem 0;
+            border-top: 2px solid rgba(181, 122, 47, 0.18);
+            border-bottom: 2px solid rgba(181, 122, 47, 0.18);
+            background: var(--champagne);
+            position: relative;
+            transition: border-color 0.4s ease;
+        }
+        .map-container:hover {
+            border-color: var(--gold);
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(20%) contrast(95%) sepia(10%) hue-rotate(-10deg);
+        }
+        .map-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+            cursor: pointer;
+            background: rgba(212, 175, 55, 0);
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 2rem;
+            text-decoration: none;
+        }
+        .map-overlay:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+        .map-address-badge {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(181, 122, 47, 0.25);
+            color: var(--obsidian);
+            padding: 12px 24px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(181, 122, 47, 0.12);
+        }
+        .map-overlay:hover .map-address-badge {
+            background: var(--gold);
+            color: var(--obsidian);
+            box-shadow: 0 0 20px rgba(181, 122, 47, 0.18);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 3rem; }
+        }
+        /* Lazy Loading & Scroll Reveal Animations */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal-item.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* Mobile Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 101;
+        }
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--gold);
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .col-half { min-width: 100%; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(255, 255, 255, 0.98);
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.4s ease;
+                z-index: 100;
+                box-shadow: -10px 0 30px rgba(181, 122, 47, 0.12);
+                gap: 0;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links a {
+                font-size: 1.5rem;
+                margin: 1.5rem 0;
+            }
+            .hero-content { padding: 1.5rem 1rem; width: 70%; }
+            .hero h1 { font-size: 2rem; margin-bottom: 1rem; line-height: 1.2; }
+            .hero p { font-size: 1rem; margin-bottom: 1.5rem !important; }
+            .hero .slide-number { font-size: 1.2rem; margin-bottom: 0.5rem; }
+            .hero .btn-deco { padding: 0.8rem 1.5rem; font-size: 0.85rem; width: 100%; box-sizing: border-box; display: inline-block; }
+            
+            .footer-logo { font-size: 2rem; margin-bottom: 1rem; }
+            .footer-info { font-size: 0.95rem; margin-bottom: 1rem; }
+            .footer-phone { font-size: 1.2rem; }
+            
+            .row { flex-direction: column; }
+            .grid-4 { grid-template-columns: 1fr; }
+            .reveal-item { transition-delay: 0s !important; } /* Disable stagger on mobile */
+            .map-address-badge {
+                white-space: normal;
+                width: 90%;
+                text-align: center;
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+        } /* End of max-width: 768px media query */
+
+        /* Hero Background Images */
+        .hero-bg-placeholder {
+            background-image: url('hero-banner.webp');
+            background-size: cover;
+            background-position: center;
+            opacity: 1;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .hero-bg-placeholder {
+                background-image: url('hero-mobil.png');
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header" style="justify-content: flex-end;">
+        <a href="https://netsis-yazilim.com/" class="logo" style="position: absolute; left: 2rem; top: 0; ">
+            <img src="netsis-logo.png" alt="Netsis Yazılım Logo" style="height: 105px; object-fit: contain; filter: invert(1);">
+        </a>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav class="nav-links" id="nav-links">
+            <a href="#kurumsal">Kurumsal</a>
+            <a href="#vizyon">Vizyon</a>
+            <a href="#misyon">Misyon</a>
+            <a href="#sektorler">Sektörler</a>
+            <a href="#iletisim">İletişim</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg-placeholder">
+        </div>
+        
+        <div class="hero-content reveal-item in-view">
+            <span class="slide-number">I</span>
+            <h1>Geleceğin Dünyasına Değer Katıyoruz</h1>
+            <div class="deco-divider">
+                <div class="deco-line"></div>
+                <div class="deco-diamond"></div>
+                <div class="deco-line"></div>
+            </div>
+            <p class="text-champagne" style="margin-bottom: 2rem;">Yenilikçi vizyon, güçlü yatırımlar ve sürdürülebilir büyüme.</p>
+            <a href="#kurumsal" class="btn-deco">Şirketimizi Keşfedin</a>
+        </div>
+    </section>
+
+    <!-- Kurumsal Tanıtım Section -->
+    <section id="kurumsal" class="section">
+        <div class="sunburst-bg"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-half reveal-item">
+                    <div class="image-placeholder">
+                        <div class="image-placeholder-inner lazy-bg" data-bg="biz-kimiz.webp" style="background-size: cover; background-position: center; filter: grayscale(20%);">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-half about-text reveal-item delay-1">
+                    <h2 class="text-gold">Biz Kimiz ?</h2>
+                    <div class="deco-divider" style="justify-content: flex-start;">
+                        <div class="deco-diamond"></div>
+                        <div class="deco-line"></div>
+                    </div>
+                    <p>2018 yılında Mersin’de kurulan Netsis Yazılım Teknoloji, teknoloji, yazılım, otomotiv, inşaat ve araç kiralama sektörlerinde faaliyet gösteren yenilikçi ve çok yönlü bir şirkettir.</p>
+                    <p>Kurulduğu günden bu yana kalite, güven ve sürdürülebilir büyüme anlayışını temel prensip edinmiş olan şirketimiz; modern dünyanın ihtiyaçlarına uygun çözümler geliştirerek sektörlerinde fark yaratmayı hedeflemektedir.</p>
+                    <p>Teknolojik altyapısı, dinamik vizyonu ve profesyonel çalışma anlayışıyla faaliyet alanlarını sürekli genişleten Netsis Yazılım Teknoloji, müşteri memnuniyetini ve uzun vadeli iş ortaklıklarını ön planda tutmaktadır.</p>
+                    <p>Yerel gücünü global hedeflerle birleştiren şirketimiz, yenilikçi projeleri ve güçlü yatırımlarıyla geleceğin dünyasına değer katmaya devam etmektedir. Netsis Yazılım Teknoloji, güvenilir hizmet anlayışı ve kurumsal yapısıyla bugün olduğu gibi gelecekte de büyümeyi, üretmeyi ve geliştirmeyi sürdürecektir.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vizyonumuz Section -->
+    <section id="vizyon" class="section sectors-bg">
+        <div class="container">
+            <div class="row" style="flex-direction: row-reverse;">
+                <div class="col-half reveal-item delay-1">
+                    <div class="image-placeholder">
+                        <div class="image-placeholder-inner lazy-bg" data-bg="vizyon.webp" style="background-size: cover; background-position: center; filter: grayscale(20%);">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-half reveal-item">
+                    <div class="deco-card">
+                        <div class="corner-tl"></div>
+                        <div class="corner-br"></div>
+                        <h2 class="text-gold" style="font-size: 2rem; margin-bottom: 1.5rem;">Vizyonumuz</h2>
+                        <div class="deco-divider" style="justify-content: flex-start; margin-bottom: 2rem;">
+                            <div class="deco-diamond"></div>
+                            <div class="deco-line"></div>
+                        </div>
+                        <p class="text-muted">Teknoloji ve inovasyonu merkeze alan yaklaşımımızla; Türkiye’nin öncü çok sektörlü şirketlerinden biri olmak ve uluslararası pazarda güçlü bir marka haline gelmek.</p>
+                        <p class="text-muted" style="margin-bottom:0;">Sürekli gelişen dijital dünyaya uyum sağlayan, modern çözümler üreten ve geleceğin ihtiyaçlarını bugünden şekillendiren bir yapı inşa ederek; sürdürülebilir büyümeyi ve sektörel liderliği kalıcı hale getirmeyi hedefliyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Misyonumuz Section -->
+    <section id="misyon" class="section">
+        <div class="sunburst-bg"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-half reveal-item">
+                    <div class="image-placeholder">
+                        <div class="image-placeholder-inner lazy-bg" data-bg="misyon.webp" style="background-size: cover; background-position: center; filter: grayscale(20%);">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-half about-text reveal-item delay-1">
+                    <h2 class="text-gold">Misyonumuz</h2>
+                    <div class="deco-divider" style="justify-content: flex-start;">
+                        <div class="deco-diamond"></div>
+                        <div class="deco-line"></div>
+                    </div>
+                    <p>Netsis Yazılım Teknoloji olarak; teknoloji, yazılım, otomotiv, inşaat ve araç kiralama sektörlerinde yenilikçi, güvenilir ve sürdürülebilir çözümler üretmeyi hedefliyoruz.</p>
+                    <p>2018 yılından bu yana müşteri memnuniyetini, kaliteyi ve sürekli gelişimi temel ilke edinerek; güçlü altyapımız ve dinamik ekibimizle iş ortaklarımıza katma değer sağlayan projeler geliştiriyoruz.</p>
+                    <p>Yerel gücümüzü global vizyonla birleştirerek, faaliyet gösterdiğimiz tüm alanlarda güven veren bir marka olmayı amaçlıyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sektörler Section -->
+    <section id="sektorler" class="section sectors-bg">
+        <div class="container">
+            <div class="text-center reveal-item" style="margin-bottom: 5rem;">
+                <h2 style="font-size: 2.5rem;">Faaliyet Alanlarımız</h2>
+                <div class="deco-divider">
+                    <div class="deco-line"></div>
+                    <div class="deco-diamond"></div>
+                    <div class="deco-diamond" style="transform: rotate(45deg) scale(1.5); margin: 0 5px;"></div>
+                    <div class="deco-diamond"></div>
+                    <div class="deco-line"></div>
+                </div>
+            </div>
+            
+            <div class="grid-4">
+                <!-- Sektör 1 -->
+                <div class="sector-card reveal-item delay-1">
+                    <div class="sector-diamond">
+                        <div class="sector-icon-wrapper">
+                            <span style="font-family: 'Marcellus'; font-size: 2rem;">I</span>
+                        </div>
+                    </div>
+                    <h3 class="sector-title text-gold">Yazılım & Teknoloji</h3>
+                    <div class="image-placeholder" style="aspect-ratio: 1/1; margin-top: 1.5rem;">
+                        <div class="image-placeholder-inner lazy-bg" data-bg="yazilim.webp" style="background-size: cover; background-position: center; filter: grayscale(20%);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sektör 2 -->
+                <div class="sector-card reveal-item delay-2">
+                    <div class="sector-diamond">
+                        <div class="sector-icon-wrapper">
+                            <span style="font-family: 'Marcellus'; font-size: 2rem;">II</span>
+                        </div>
+                    </div>
+                    <h3 class="sector-title text-gold">İnşaat</h3>
+                    <div class="image-placeholder" style="aspect-ratio: 1/1; margin-top: 1.5rem;">
+                        <div class="image-placeholder-inner lazy-bg" data-bg="inşaat.webp" style="background-size: cover; background-position: center; filter: grayscale(20%);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sektör 3 -->
+                <div class="sector-card reveal-item delay-3">
+                    <div class="sector-diamond">
+                        <div class="sector-icon-wrapper">
+                            <span style="font-family: 'Marcellus'; font-size: 2rem;">III</span>
+                        </div>
+                    </div>
+                    <h3 class="sector-title text-gold">Otomotiv</h3>
+                    <div class="image-placeholder" style="aspect-ratio: 1/1; margin-top: 1.5rem;">
+                        <div class="image-placeholder-inner lazy-bg" data-bg="otomotiv.webp" style="background-size: cover; background-position: center; filter: grayscale(20%);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sektör 4 -->
+                <div class="sector-card reveal-item delay-4">
+                    <div class="sector-diamond">
+                        <div class="sector-icon-wrapper">
+                            <span style="font-family: 'Marcellus'; font-size: 2rem;">IV</span>
+                        </div>
+                    </div>
+                    <h3 class="sector-title text-gold">Araç Kiralama</h3>
+                    <div class="image-placeholder" style="aspect-ratio: 1/1; margin-top: 1.5rem;">
+                        <div class="image-placeholder-inner lazy-bg" data-bg="arac-kiralama.webp" style="background-size: cover; background-position: center; filter: grayscale(20%);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="iletisim" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Netsis Yazılım</div>
+                <div class="deco-divider">
+                    <div class="deco-line" style="width: 100%;"></div>
+                    <div class="deco-diamond"></div>
+                    <div class="deco-line" style="width: 100%;"></div>
+                </div>
+                
+                <div class="footer-info">
+                    <p style="margin-bottom: 0.5rem; color: var(--obsidian); text-transform: uppercase; letter-spacing: 0.1em;">
+                        Netsis Yazılım Teknoloji Gıda A.Ş.
+                    </p>
+                    <p class="footer-phone">
+                        Tel: 0 324 404 00 58
+                    </p>
+                    
+                    <a href="https://wa.me/903244040058" target="_blank" style="display: flex; justify-content: center; margin: 3rem auto 0; width: 100%; cursor: pointer; text-decoration: none;">
+                        <div>
+                            <style>
+                                .sahne {
+                                    perspective: 1200px;
+                                    position: relative;
+                                    width: 260px;
+                                    height: 350px;
+                                    margin: 0 auto;
+                                }
+        
+                                .kutu {
+                                    width: 260px;
+                                    height: 260px;
+                                    position: relative;
+                                    transform-style: preserve-3d;
+                                    will-change: transform, translate;
+                                    animation: donme 10s linear infinite, suzulme 4s ease-in-out infinite alternate;
+                                }
+        
+                                .katman {
+                                    position: absolute;
+                                    inset: 0;
+                                    border-radius: 45px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    transform-style: preserve-3d;
+                                }
+        
+                                .cam-yuzey {
+                                    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(255, 255, 255, 0.02) 100%);
+                                    border: 2px solid rgba(212, 175, 55, 0.8);
+                                    box-shadow: inset 0 0 20px #D4AF37;
+                                }
+        
+                                .cam-yuzey::after {
+                                    content: '';
+                                    position: absolute;
+                                    inset: 0;
+                                    border-radius: 45px;
+                                    z-index: -1;
+                                    -webkit-backdrop-filter: blur(0px);
+                                    backdrop-filter: blur(0px);
+                                    -webkit-filter: url(#container-glass);
+                                    filter: url(#container-glass);
+                                    overflow: hidden;
+                                    isolation: isolate;
+                                }
+        
+                                .govde {
+                                    background: transparent;
+                                    border: 1.5px solid #D4AF37;
+                                }
+        
+                                .ikon-merkez {
+                                    transform: translateZ(0px);
+                                    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8));
+                                    border: 1.5px solid #D4AF37;
+                                    width: 100%;
+                                    height: 100%;
+                                }
+        
+                                .wp-logosu {
+                                    width: 100%;
+                                    height: 73%;
+                                    fill: #ffffff;
+                                }
+        
+                                .golge {
+                                    position: absolute;
+                                    top: 360px;
+                                    left: 50%;
+                                    width: 260px;
+                                    height: 35px;
+                                    background: #D4AF37;
+                                    border-radius: 50%;
+                                    filter: blur(15px);
+                                    transform: translateX(-50%);
+                                    animation: golge-anim 4s ease-in-out infinite alternate;
+                                    z-index: -1;
+                                }
+        
+                                @media (max-width: 768px) {
+                                    .sahne {
+                                        width: 180px;
+                                        height: 240px;
+                                    }
+                                    .kutu {
+                                        width: 180px;
+                                        height: 180px;
+                                        animation: donme-mobil 10s linear infinite, suzulme 4s ease-in-out infinite alternate;
+                                    }
+                                    .golge {
+                                        top: 250px;
+                                        width: 180px;
+                                        height: 25px;
+                                    }
+                                    .kutu .govde:nth-child(even) {
+                                        display: none;
+                                    }
+                                }
+        
+                                @keyframes donme {
+                                    0% { transform: rotateY(0deg) rotateX(15deg); }
+                                    100% { transform: rotateY(360deg) rotateX(15deg); }
+                                }
+                                
+                                @keyframes donme-mobil {
+                                    0% { transform: rotateY(0deg) rotateX(15deg) scaleZ(0.55); }
+                                    100% { transform: rotateY(360deg) rotateX(15deg) scaleZ(0.55); }
+                                }
+        
+                                @keyframes suzulme {
+                                    0% { translate: 0 0px; }
+                                    100% { translate: 0 -25px; }
+                                }
+        
+                                @keyframes golge-anim {
+                                    0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+                                    100% { transform: translateX(-50%) scale(0.6); opacity: 0.2; }
+                                }
+                                
+                                .signal-1 { animation: signal-fade 1.5s infinite 0.0s; opacity: 0; }
+                                .signal-2 { animation: signal-fade 1.5s infinite 0.2s; opacity: 0; }
+                                .signal-3 { animation: signal-fade 1.5s infinite 0.4s; opacity: 0; }
+        
+                                @keyframes signal-fade {
+                                    0% { opacity: 0; }
+                                    30% { opacity: 1; }
+                                    100% { opacity: 0; }
+                                }
+                            </style>
+        
+                            <svg style="display: none">
+                                <filter id="container-glass" x="0%" y="0%" width="100%" height="100%">
+                                    <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+                                    <feGaussianBlur in="noise" stdDeviation="0.02" result="blur" />
+                                    <feDisplacementMap in="SourceGraphic" in2="blur" scale="30" xChannelSelector="R" yChannelSelector="G" />
+                                </filter>
+                                <filter id="edge-glass" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feTurbulence type="fractalNoise" baseFrequency="0.010" numOctaves="2" seed="5" result="noise" />
+                                    <feGaussianBlur in="noise" stdDeviation="0.5" result="blur" />
+                                    <feDisplacementMap in="SourceGraphic" in2="blur" scale="1" xChannelSelector="R" yChannelSelector="G" />
+                                </filter>
+                            </svg>
+        
+                            <div class="sahne">
+                                <div class="golge"></div>
+                                <div class="kutu">
+                                    <div class="katman cam-yuzey cam-kapak-on" style="transform: translateZ(45px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(44px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(43px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(42px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(41px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(40px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(39px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(38px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(37px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(36px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(35px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(34px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(33px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(32px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(31px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(30px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(29px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(28px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(27px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(26px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(25px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(24px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(23px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(22px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(21px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(20px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(19px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(18px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(17px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(16px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(15px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(14px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(13px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(12px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(11px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(10px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(9px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(8px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(7px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(6px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(5px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(4px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(3px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(2px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(1px);"></div>
+        
+                                    <div class="katman ikon-merkez">
+                                        <svg class="wp-logosu" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                          <title>phone-call-fill</title>
+                                          <g fill="none">
+                                            <!-- Telefon -->
+                                            <path fill="#ffffff" d="M6.857 2.445C8 3.278 8.89 4.415 9.65 5.503l.442.644l.417.615a1.504 1.504 0 0 1-.256 1.986l-1.951 1.449a.48.48 0 0 0-.142.616c.442.803 1.228 1.999 2.128 2.899s2.153 1.738 3.012 2.23a.483.483 0 0 0 .644-.162l1.27-1.933a1.503 1.503 0 0 1 2.056-.332l.663.459c1.239.86 2.57 1.837 3.588 3.14a1.47 1.47 0 0 1 .189 1.484c-.837 1.953-2.955 3.616-5.158 3.535l-.3-.017l-.233-.02l-.258-.03l-.281-.038l-.305-.05l-.16-.03l-.336-.072l-.176-.04l-.366-.094l-.385-.11l-.402-.13c-1.846-.626-4.189-1.856-6.593-4.26s-3.633-4.746-4.259-6.592l-.13-.402l-.11-.385l-.094-.366l-.078-.346a12 12 0 0 1-.063-.326l-.05-.305l-.04-.281l-.029-.258l-.02-.233l-.016-.3c-.081-2.196 1.6-4.329 3.544-5.162a1.47 1.47 0 0 1 1.445.159"/>
+                                        
+                                            <!-- 1. Sinyal -->
+                                            <path class="signal-1" fill="#ffffff" d="M14.992 6.04l.116.013a3.5 3.5 0 0 1 2.858 2.96a1 1 0 0 1-1.958.393l-.023-.115a1.5 1.5 0 0 0-1.07-1.233l-.155-.035a1 1 0 0 1 .232-1.983"/>
+                                        
+                                            <!-- 2. Sinyal -->
+                                            <path class="signal-2" fill="#ffffff" d="M15 3a6 6 0 0 1 6 6a1 1 0 0 1-1.993.117L19 9a4 4 0 0 0-3.738-3.991L15 5a1 1 0 1 1 0-2"/>
+                                        
+                                            <!-- 3. Sinyal (yeni eklenen en dış yay) -->
+                                            <path class="signal-3" fill="#ffffff" d="M15 0a9 9 0 0 1 9 9a1 1 0 0 1-1.993.117L22 9a7 7 0 0 0-6.738-6.991L15 2a1 1 0 1 1 0-2"/>
+                                          </g>
+                                        </svg>
+                                    </div>
+        
+                                    <div class="katman govde" style="transform: translateZ(-1px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-2px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-3px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-4px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-5px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-6px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-7px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-8px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-9px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-10px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-11px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-12px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-13px);"></div>
+                                    <div class="katman govde" style="transform: translateZ(-14px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-15px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-16px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-17px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-18px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-19px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-20px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-21px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-22px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-23px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-24px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-25px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-26px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-27px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-28px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-29px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-30px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-31px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-32px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-33px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-34px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-35px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-36px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-37px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-38px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-39px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-40px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-41px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-42px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-43px);"></div>
+                                    <div class="katman govde katman-extra" style="transform: translateZ(-44px);"></div>
+                                    <div class="katman cam-yuzey cam-kapak-arka" style="transform: translateZ(-45px) rotateY(180deg);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container reveal-item delay-1">
+            <a href="https://www.google.com/maps/search/?api=1&query=Çukurova+Mah.+230+Cad.+No:+32+Toroslar+Mersin" target="_blank" class="map-overlay" title="Google Haritalar'da Aç">
+                <div class="map-address-badge">
+                    Çukurova mahallesi 230 cadde no 32 Toroslar Mersin
+                </div>
+            </a>
+            <iframe src="https://maps.google.com/maps?q=Çukurova%20Mah.%20230%20Cad.%20No:%2032%20Toroslar%20Mersin&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-bottom" style="margin-top: 0;">
+                &copy; 2026 Netsis Yazılım Teknoloji. Tüm Hakları Saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lazy Load & Reveal Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Scroll Reveal Animations
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        // Opsiyonel: Sadece bir kez çalışsın isterseniz alttaki satırı aktif bırakın.
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-item').forEach(el => revealObserver.observe(el));
+
+            // 2. Background Image Lazy Loading
+            const bgObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const bgUrl = entry.target.getAttribute('data-bg');
+                        if (bgUrl) {
+                            entry.target.style.backgroundImage = `url('${bgUrl}')`;
+                            entry.target.removeAttribute('data-bg');
+                            entry.target.classList.remove('lazy-bg');
+                        }
+                        observer.unobserve(entry.target);
+                        
+                        // Prevent mobile repaint bug by removing transforms after load
+                        setTimeout(() => {
+                            entry.target.style.transform = 'translateZ(0)';
+                        }, 1000);
+                    }
+                });
+            }, { rootMargin: '0px 0px 300px 0px' }); // Görünür olmadan hemen önce yükle
+
+            document.querySelectorAll('.lazy-bg').forEach(el => bgObserver.observe(el));
+            
+            // İlk yüklemede Hero kısmını hemen göster
+            setTimeout(() => {
+                const hero = document.querySelector('.hero-content');
+                if(hero) hero.classList.add('in-view');
+            }, 100);
+
+            // 3. Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+
+            if(hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
