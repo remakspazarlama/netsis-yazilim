@@ -590,6 +590,59 @@
                 background-image: url('hero-mobil.png');
             }
         }
+    
+        /* Hero Faaliyet Kartları */
+        .hero-sectors {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            margin-top: 2.5rem;
+        }
+        .hero-sector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.9rem 0.4rem;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--gold-dim);
+            transition: all 0.4s ease;
+        }
+        .hero-sector:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+        .hero-sector-num {
+            font-family: 'Marcellus', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        .hero-sector-name {
+            font-family: 'Marcellus', serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--obsidian);
+            line-height: 1.3;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .hero-sectors {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 1.5rem;
+            }
+            .hero-sector {
+                flex: 0 0 calc(33.333% - 0.34rem);
+                padding: 0.6rem 0.25rem;
+            }
+            .hero-sector-num { font-size: 0.9rem; }
+            .hero-sector-name { font-size: 0.55rem; letter-spacing: 0.06em; }
+        }
     </style>
 </head>
 <body>
@@ -628,6 +681,28 @@
             </div>
             <p class="text-champagne" style="margin-bottom: 2rem;">Yenilikçi vizyon, güçlü yatırımlar ve sürdürülebilir büyüme.</p>
             <a href="#kurumsal" class="btn-deco">Şirketimizi Keşfedin</a>
+            <div class="hero-sectors">
+                <div class="hero-sector">
+                    <span class="hero-sector-num">I</span>
+                    <span class="hero-sector-name">Yazılım &amp; Teknoloji</span>
+                </div>
+                <div class="hero-sector">
+                    <span class="hero-sector-num">II</span>
+                    <span class="hero-sector-name">İnşaat</span>
+                </div>
+                <div class="hero-sector">
+                    <span class="hero-sector-num">III</span>
+                    <span class="hero-sector-name">Otomotiv</span>
+                </div>
+                <div class="hero-sector">
+                    <span class="hero-sector-num">IV</span>
+                    <span class="hero-sector-name">Araç Kiralama</span>
+                </div>
+                <div class="hero-sector">
+                    <span class="hero-sector-num">V</span>
+                    <span class="hero-sector-name">Organizasyon</span>
+                </div>
+            </div>
         </div>
     </section>
 
